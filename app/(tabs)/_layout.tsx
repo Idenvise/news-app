@@ -1,11 +1,16 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Tabs } from 'expo-router';
+import HeaderIcon from '../../assets/images/header-icon.svg';
+import NewsTabIcon from '../../assets/images/news.svg';
+import HomeTabIcon from '../../assets/images/home.svg';
+
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { View, Text } from '@/components/Themed';
+import { useIsFocused } from '@react-navigation/native';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -25,33 +30,37 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
+        headerTitleStyle: {
+          fontSize: 28,
+          lineHeight: 36,
+          marginLeft: 5,
+          fontFamily: 'Montserrat-Bold'
+        },
+        tabBarLabelStyle: { fontSize: 11 }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: 'Главная',
+          tabBarIcon: ({ color }) => <HomeTabIcon width={24} height={24} color={color} />,
+          headerLeft: () => (
+            <View style={{ marginLeft: 15 }}>
+              <HeaderIcon width={24} height={24} />
+            </View>
           ),
+
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="news"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Новости',
+          tabBarIcon: ({ color }) => <NewsTabIcon width={24} height={24} color={color} />,
+          headerLeft: () => (
+            <View style={{ marginLeft: 15 }}>
+              <HeaderIcon width={24} height={24} />
+            </View>
+          ),
         }}
       />
     </Tabs>
